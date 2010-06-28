@@ -57,8 +57,8 @@ class fulltext_sphinx
 	{
 		global $config;
 
-		$this->id = $config['avatar_salt'];
-		$this->indexes = 'index_phpbb_' . $this->id . '_delta;index_phpbb_' . $this->id . '_main';
+		$this->id = substr($config['avatar_salt'], 0, 4);
+		$this->indexes = 'index_' . $this->id . '_delta;index_' . $this->id . '_main';
 
 		$this->sphinx = new SphinxClient ();
 
@@ -284,8 +284,8 @@ class fulltext_sphinx
 							AND p.post_id >  ( SELECT max_doc_id FROM ' . SPHINX_TABLE . ' WHERE counter_id=1 )'),
 					array('sql_query_post_index',		''),
 				),
-				"index index_phpbb_{$this->id}_main" => array(
-					array('path',						$config['fulltext_sphinx_data_path'] . "index_phpbb_{$this->id}_main"),
+				"index index_{$this->id}_main" => array(
+					array('path',						$config['fulltext_sphinx_data_path'] . "index_{$this->id}_main"),
 					array('source',						"source_phpbb_{$this->id}_main"),
 					array('docinfo',					'extern'),
 					array('morphology',					'none'),
@@ -296,8 +296,8 @@ class fulltext_sphinx
 					array('min_prefix_len',				'0'),
 					array('min_infix_len',				'0'),
 				),
-				"index index_phpbb_{$this->id}_delta : index_phpbb_{$this->id}_main" => array(
-					array('path',						$config['fulltext_sphinx_data_path'] . "index_phpbb_{$this->id}_delta"),
+				"index index_{$this->id}_delta : index_{$this->id}_main" => array(
+					array('path',						$config['fulltext_sphinx_data_path'] . "index_{$this->id}_delta"),
 					array('source',						"source_phpbb_{$this->id}_delta"),
 				),
 				'indexer' => array(
@@ -674,7 +674,7 @@ class fulltext_sphinx
 
 				$cwd = getcwd();
 				chdir($config['fulltext_sphinx_bin_path']);
-				exec('./' . INDEXER_NAME . $rotate . ' --config ' . $config['fulltext_sphinx_config_path'] . 'sphinx.conf index_phpbb_' . $this->id . '_delta >> ' . $config['fulltext_sphinx_data_path'] . 'log/indexer.log 2>&1 &');
+				exec('./' . INDEXER_NAME . $rotate . ' --config ' . $config['fulltext_sphinx_config_path'] . 'sphinx.conf index_' . $this->id . '_delta >> ' . $config['fulltext_sphinx_data_path'] . 'log/indexer.log 2>&1 &');
 				chdir($cwd);
 			}
 		}
@@ -709,8 +709,8 @@ class fulltext_sphinx
 
 				$cwd = getcwd();
 				chdir($config['fulltext_sphinx_bin_path']);
-				exec('./' . INDEXER_NAME . $rotate . ' --config ' . $config['fulltext_sphinx_config_path'] . 'sphinx.conf index_phpbb_' . $this->id . '_main >> ' . $config['fulltext_sphinx_data_path'] . 'log/indexer.log 2>&1 &');
-				exec('./' . INDEXER_NAME . $rotate . ' --config ' . $config['fulltext_sphinx_config_path'] . 'sphinx.conf index_phpbb_' . $this->id . '_delta >> ' . $config['fulltext_sphinx_data_path'] . 'log/indexer.log 2>&1 &');
+				exec('./' . INDEXER_NAME . $rotate . ' --config ' . $config['fulltext_sphinx_config_path'] . 'sphinx.conf index_' . $this->id . '_main >> ' . $config['fulltext_sphinx_data_path'] . 'log/indexer.log 2>&1 &');
+				exec('./' . INDEXER_NAME . $rotate . ' --config ' . $config['fulltext_sphinx_config_path'] . 'sphinx.conf index_' . $this->id . '_delta >> ' . $config['fulltext_sphinx_data_path'] . 'log/indexer.log 2>&1 &');
 				chdir($cwd);
 			}
 		}
@@ -765,7 +765,7 @@ class fulltext_sphinx
 
 		if ($config['fulltext_sphinx_autorun'])
 		{
-			sphinx_unlink_by_pattern($config['fulltext_sphinx_data_path'], '#^index_phpbb_' . $this->id . '.*$#');
+			sphinx_unlink_by_pattern($config['fulltext_sphinx_data_path'], '#^index_' . $this->id . '.*$#');
 		}
 
 		if (!$this->index_created())
@@ -799,7 +799,7 @@ class fulltext_sphinx
 		{
 			if ($config['fulltext_sphinx_autorun'])
 			{
-				if ((file_exists($config['fulltext_sphinx_data_path'] . 'index_phpbb_' . $this->id . '_main.spd') && file_exists($config['fulltext_sphinx_data_path'] . 'index_phpbb_' . $this->id . '_delta.spd')) || ($allow_new_files && file_exists($config['fulltext_sphinx_data_path'] . 'index_phpbb_' . $this->id . '_main.new.spd') && file_exists($config['fulltext_sphinx_data_path'] . 'index_phpbb_' . $this->id . '_delta.new.spd')))
+				if ((file_exists($config['fulltext_sphinx_data_path'] . 'index_' . $this->id . '_main.spd') && file_exists($config['fulltext_sphinx_data_path'] . 'index_' . $this->id . '_delta.spd')) || ($allow_new_files && file_exists($config['fulltext_sphinx_data_path'] . 'index_' . $this->id . '_main.new.spd') && file_exists($config['fulltext_sphinx_data_path'] . 'index_' . $this->id . '_delta.new.spd')))
 				{
 					$created = true;
 				}
