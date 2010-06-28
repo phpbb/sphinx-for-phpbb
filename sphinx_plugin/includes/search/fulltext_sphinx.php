@@ -439,7 +439,7 @@ class fulltext_sphinx
 	*/
 	function keyword_search($type, $fields, $terms, $sort_by_sql, $sort_key, $sort_dir, $sort_days, $ex_fid_ary, $m_approve_fid_ary, $topic_id, $author_ary, $author_name, &$id_ary, $start, $per_page)
 	{
-		global $config, $db, $auth;
+		global $config, $db, $auth, $user;
 
 		// No keywords? No posts.
 		if (!strlen($this->search_query) && !sizeof($author_ary))
@@ -562,6 +562,11 @@ class fulltext_sphinx
 		{
 			usleep(CONNECT_WAIT_TIME);
 			$result = $this->sphinx->Query($search_query_prefix . str_replace('&quot;', '"', $this->search_query), $this->indexes);
+		}
+		if (!$result)
+		{
+			$user->add_lang('mods/fulltext_sphinx');
+			trigger_error($user->lang['FULLTEXT_SPHINX_SERVER_ERROR']);
 		}
 
 		$id_ary = array();
