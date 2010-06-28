@@ -281,7 +281,7 @@ class fulltext_sphinx
 						FROM ' . POSTS_TABLE . ' p, ' . TOPICS_TABLE . ' t
 						WHERE
 							p.topic_id = t.topic_id
-							AND p.post_id >=  ( SELECT max_doc_id FROM ' . SPHINX_TABLE . ' WHERE counter_id=1 )'),
+							AND p.post_id >  ( SELECT max_doc_id FROM ' . SPHINX_TABLE . ' WHERE counter_id=1 )'),
 					array('sql_query_post_index',		''),
 				),
 				"index index_phpbb_{$this->id}_main" => array(
