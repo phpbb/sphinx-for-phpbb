@@ -620,7 +620,10 @@ class fulltext_sphinx
 	function author_search($type, $firstpost_only, $sort_by_sql, $sort_key, $sort_dir, $sort_days, $ex_fid_ary, $m_approve_fid_ary, $topic_id, $author_ary, $author_name, &$id_ary, $start, $per_page)
 	{
 		$this->search_query = '';
-
+		if($author_name){
+		$author_ary = array_diff($author_ary, array(ANONYMOUS));
+		}
+		
 		$this->sphinx->SetMatchMode(SPH_MATCH_FULLSCAN);
 		$fields = ($firstpost_only) ? 'firstpost' : 'all';
 		$terms = 'all';
