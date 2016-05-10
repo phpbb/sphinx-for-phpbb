@@ -53,13 +53,18 @@ $lang = array_merge($lang, array(
 	'FULLTEXT_SPHINX_INDEXER_MEM_LIMIT_EXPLAIN'	=> 'This number should at all times be lower than the RAM available on your machine. If you experience periodic performance problems this might be due to the indexer consuming too many resources. It might help to lower the amount of memory available to the indexer.',
 	'FULLTEXT_SPHINX_LAST_SEARCHES'		=> 'Recent search queries',
 	'FULLTEXT_SPHINX_MAIN_POSTS'			=> 'Number of posts in main index',
-	'FULLTEXT_SPHINX_PORT'					=> 'Sphinx search deamon port',
-	'FULLTEXT_SPHINX_PORT_EXPLAIN'			=> 'Port on which the sphinx search deamon on localhost listens. Leave empty to use the default 3312',
+	'FULLTEXT_SPHINX_MIN_WORD_LEN'			=> 'Minimum indexed word length',
+	'FULLTEXT_SPHINX_MIN_WORD_LEN_EXPLAIN'	=> 'Only those words that are not shorter than this minimum will be indexed. For instance, if min_word_len is 4, then "the" won\'t be indexed, but "they" will be. Default is 1 (index everything).',
+	'FULLTEXT_SPHINX_IP'					=> 'Sphinx server IP address',
+	'FULLTEXT_SPHINX_IP_EXPLAIN'					=> 'IP address of the server running Sphinx search daemon. Default is localhost (127.0.0.1). If Sphinx runs on another server, you must manually copy the generated config file there. If you use the autorun option, Sphinx daemon must run on localhost.',
+	'FULLTEXT_SPHINX_PORT'					=> 'Sphinx search daemon port',
+	'FULLTEXT_SPHINX_PORT_EXPLAIN'			=> 'Port on which the sphinx search daemon listens. Leave empty to use the default 3312',
 	'FULLTEXT_SPHINX_REQUIRES_EXEC'		=> 'The sphinx plugin for phpBB requires PHP’s <code>exec</code> function which is disabled on your system.',
 	'FULLTEXT_SPHINX_UNCONFIGURED'			=> 'Please set all necessary options in the "Fulltext Sphinx" section of the previous page before you try to activate the sphinx plugin.',
 	'FULLTEXT_SPHINX_WRONG_DATABASE'		=> 'The sphinx plugin for phpBB currently only supports MySQL',
 	'FULLTEXT_SPHINX_STOPWORDS_FILE'		=> 'Stopwords activated',
 	'FULLTEXT_SPHINX_STOPWORDS_FILE_EXPLAIN'	=> 'This setting only works with autoconf enabled. You can place a file called sphinx_stopwords.txt containing one word in each line in your config directory. If this file is present these words will be excluded from the indexing process.',
+	'FULLTEXT_SPHINX_SERVER_ERROR'			=> 'There has been an error accessing the search server. Please try again in a few minutes.',
 ));
 
 ?>
